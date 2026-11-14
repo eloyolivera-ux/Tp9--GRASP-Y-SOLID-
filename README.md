@@ -147,9 +147,3 @@ sequenceDiagram
 | **ISP** | Interfaz de pasarela con un solo método; servicios dependen solo de los repositorios que usan. |
 | **DIP** | Dependencias inyectadas por constructor (`dependencies.py` es la única composición). |
 
-## 4. Decisiones de diseño a justificar en la defensa
-- `/cotizar` devuelve además `entrada_ids` propuestos; `/iniciar-pago` los recibe. Así se puede detectar la pérdida de disponibilidad (HU2-E3).
-- El total se **recalcula en el servidor** a partir de las entradas; nunca se confía en el monto del cliente.
-- Las entradas se **reservan** (`Reservada`) antes de cobrar y se liberan si la pasarela rechaza.
-- Concurrencia: en SQLite alcanza el chequeo+reserva en una transacción; en producción se usaría `SELECT ... FOR UPDATE` o bloqueo optimista (columna `version`).
-- Mejoras posibles: validar que el QR corresponda al evento del día; endpoint `webhook-pagos` para pasarelas asíncronas.
