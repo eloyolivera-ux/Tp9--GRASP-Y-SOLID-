@@ -159,3 +159,14 @@ def test_hu3_e4_entrada_no_pagada(client, escenario):
     otra = db.query(Entrada).filter_by(sector_id=escenario["platea"], estado=EstadoEntrada.DISPONIBLE).first()
     r = client.post("/escanear-acceso", json={"codigo_qr": otra.codigo_qr})
     assert r.status_code == 403
+
+
+
+# ------------- Consultas de solo lectura (las usa el Explorador del frontend) -------------
+def test_consulta_entradas_y_ventas(client, escenario):
+    comprar_platea(client, escenario, 2)
+    entradas = client.get("/entradas", params={"evento_id": escenario["evento"], "estado": "Emitida"}).json()
+    assert len(entradas) == 2 and all(e["estado"] == "Emitida" for e in entradas)
+    assert len(client.get("/entradas").json()) == 6          # 5 de Platea + 1 de VIP
+    ventas = client.get("/ventas").json()
+    assert len(ventas) == 1 and ventas[0]["estado"] == "Pagada" and ventas[0]["total"] == 24000

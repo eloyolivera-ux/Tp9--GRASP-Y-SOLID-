@@ -28,6 +28,8 @@ def get_lugares(db: Session = Depends(get_db)): return LugarRepository(db)
 def get_sectores(db: Session = Depends(get_db)): return SectorRepository(db)
 def get_clientes(db: Session = Depends(get_db)): return ClienteRepository(db)
 def get_eventos(db: Session = Depends(get_db)): return EventoRepository(db)
+def get_entradas(db: Session = Depends(get_db)): return EntradaRepository(db)
+def get_ventas(db: Session = Depends(get_db)): return VentaRepository(db)
 
 
 def get_evento_service(db: Session = Depends(get_db)):

@@ -114,3 +114,24 @@ class EscaneoResponse(BaseModel):
     mensaje: str
     entrada_id: int
     hora_ingreso: datetime
+
+
+
+# ---- Consultas de solo lectura (para el panel "Explorador" del frontend) ----
+class EntradaRead(BaseModel):
+    id: int
+    codigo_qr: str
+    estado: str
+    hora_ingreso: datetime | None
+    evento_id: int
+    sector_id: int
+    venta_id: int | None
+
+
+class VentaRead(BaseModel):
+    id: int
+    fecha: datetime
+    estado: str
+    total: float
+    cliente_id: int
+    entrada_ids: list[int]
